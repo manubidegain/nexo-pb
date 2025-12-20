@@ -149,7 +149,51 @@ const translations: Record<Language, Translation> = {
 
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const t = translations[lang];
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, language: lang }),
+      });
+
+      if (response.ok) {
+        setSubmitMessage({
+          type: 'success',
+          text: lang === 'en' ? 'Thanks for joining!' : lang === 'es' ? '¡Gracias por unirte!' : 'Obrigado por se juntar!',
+        });
+        setEmail('');
+      } else {
+        const errorData = await response.json();
+        if (errorData.error === 'Email already registered') {
+          setSubmitMessage({
+            type: 'error',
+            text: lang === 'en' ? 'This email is already on the list!' : lang === 'es' ? '¡Este email ya está en la lista!' : 'Este email já está na lista!',
+          });
+        } else {
+          throw new Error('Failed to submit');
+        }
+      }
+    } catch (error) {
+      setSubmitMessage({
+        type: 'error',
+        text: lang === 'en' ? 'Something went wrong. Please try again.' : lang === 'es' ? 'Algo salió mal. Por favor intenta de nuevo.' : 'Algo deu errado. Por favor, tente novamente.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -203,7 +247,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-40 pb-32 px-8 lg:px-12 bg-linear-to-br from-nexo-cyan/5 via-white to-nexo-lime/5 relative overflow-hidden">
+      <section className="pt-28 pb-20 px-8 lg:px-12 bg-linear-to-br from-nexo-cyan/5 via-white to-nexo-lime/5 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 right-10 w-32 h-32 bg-nexo-cyan/10 rounded-full blur-3xl"></div>
@@ -211,7 +255,7 @@ export default function Home() {
         </div>
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="inline-block mb-12">
+          <div className="inline-block mb-8">
             <Image
               src="/images/logo.png"
               alt="Nexo Pickleball"
@@ -225,7 +269,7 @@ export default function Home() {
           </p>
 
           {/* Visual divider */}
-          <div className="flex justify-center gap-2 mt-12">
+          <div className="flex justify-center gap-2 mt-8">
             <div className="w-16 h-1 bg-nexo-cyan rounded-full"></div>
             <div className="w-16 h-1 bg-nexo-lime rounded-full"></div>
             <div className="w-16 h-1 bg-nexo-cyan rounded-full"></div>
@@ -287,8 +331,8 @@ export default function Home() {
 
       {/* Montevideo Section */}
       <section className="py-24 px-8 lg:px-12 bg-nexo-cyan relative overflow-hidden">
-        {/* Background SVG */}
-        <div className="absolute inset-0 pointer-events-none opacity-20">
+        {/* Background SVG - hidden on mobile */}
+        <div className="hidden lg:block absolute inset-0 pointer-events-none opacity-20">
           <svg className="absolute left-0 top-0 h-full w-auto" viewBox="0 0 1305 810" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M-20.7517 -4.70221L227.807 857.274L-77.8457 865.63V165.996L-20.7517 -4.70221Z" fill="white"/>
             <path d="M-11.6302 20.3818L230.088 880.078" stroke="white" strokeWidth="34"/>
@@ -429,19 +473,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Partner Logo */}
-          <div className="flex justify-center">
-            <div className="bg-white rounded-2xl p-8 hover:shadow-xl transition-shadow max-w-xs">
-              <Image
-                src="/images/sixzero.png"
-                alt="SIX ZERO"
-                width={200}
-                height={100}
-                className="w-auto h-16 object-contain"
-              />
-            </div>
-          </div>
         </div>
       </section>
 
@@ -454,12 +485,41 @@ export default function Home() {
           <p className="text-lg text-gray-600 mb-8">
             {t.newsletter.subtitle}
           </p>
-          <a
-            href="mailto:asher@nexopickleball.com?subject=Join the List"
-            className="bg-nexo-cyan text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-nexo-dark transition-all inline-block"
-          >
-            {t.newsletter.button}
-          </a>
+
+          <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={
+                  lang === 'en' ? 'Enter your email' :
+                  lang === 'es' ? 'Ingresa tu email' :
+                  'Digite seu email'
+                }
+                required
+                className="flex-1 px-6 py-4 rounded-lg border-2 border-gray-300 focus:border-nexo-cyan focus:outline-none text-lg"
+                disabled={isSubmitting}
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-nexo-cyan text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-nexo-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  lang === 'en' ? 'Joining...' :
+                  lang === 'es' ? 'Uniéndote...' :
+                  'Juntando...'
+                ) : t.newsletter.button}
+              </button>
+            </div>
+
+            {submitMessage && (
+              <div className={`mt-4 p-3 rounded-lg ${submitMessage.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                {submitMessage.text}
+              </div>
+            )}
+          </form>
         </div>
       </section>
 
