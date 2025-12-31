@@ -7,6 +7,7 @@ const PASSWORD = 'ashernexo2026';
 
 interface NewsletterEntry {
   timestamp: string;
+  name: string;
   email: string;
   language: string;
 }

@@ -6,13 +6,21 @@ const DATA_FILE = path.join(process.cwd(), 'data', 'newsletter.json');
 
 interface NewsletterEntry {
   timestamp: string;
+  name: string;
   email: string;
   language: string;
 }
 
 export async function POST(request: Request) {
   try {
-    const { email, language } = await request.json();
+    const { name, email, language } = await request.json();
+
+    if (!name || name.trim().length === 0) {
+      return NextResponse.json(
+        { error: 'Name is required' },
+        { status: 400 }
+      );
+    }
 
     if (!email || !email.includes('@')) {
       return NextResponse.json(
@@ -50,6 +58,7 @@ export async function POST(request: Request) {
     // Add new entry
     const newEntry: NewsletterEntry = {
       timestamp: new Date().toISOString(),
+      name: name.trim(),
       email,
       language: language || 'en',
     };

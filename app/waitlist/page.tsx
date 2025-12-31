@@ -5,6 +5,7 @@ import Image from "next/image";
 
 interface NewsletterEntry {
   timestamp: string;
+  name: string;
   email: string;
   language: string;
 }
@@ -46,9 +47,10 @@ export default function WaitlistAdmin() {
 
   const exportToCSV = () => {
     const csv = [
-      ['Timestamp', 'Email', 'Language'],
+      ['Timestamp', 'Name', 'Email', 'Language'],
       ...entries.map(entry => [
         new Date(entry.timestamp).toLocaleString(),
+        entry.name,
         entry.email,
         entry.language
       ])
@@ -142,6 +144,7 @@ export default function WaitlistAdmin() {
               <thead className="bg-nexo-dark text-white">
                 <tr>
                   <th className="px-6 py-4 text-left font-bold">#</th>
+                  <th className="px-6 py-4 text-left font-bold">Name</th>
                   <th className="px-6 py-4 text-left font-bold">Email</th>
                   <th className="px-6 py-4 text-left font-bold">Language</th>
                   <th className="px-6 py-4 text-left font-bold">Signed Up</th>
@@ -152,6 +155,9 @@ export default function WaitlistAdmin() {
                   <tr key={index} className="hover:bg-gray-50">
                     <td className="px-6 py-4 text-gray-900 font-medium">
                       {index + 1}
+                    </td>
+                    <td className="px-6 py-4 text-gray-900 font-medium">
+                      {entry.name}
                     </td>
                     <td className="px-6 py-4 text-gray-900">
                       {entry.email}

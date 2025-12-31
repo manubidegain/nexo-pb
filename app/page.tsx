@@ -149,6 +149,7 @@ const translations: Record<Language, Translation> = {
 
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -165,7 +166,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, language: lang }),
+        body: JSON.stringify({ name, email, language: lang }),
       });
 
       if (response.ok) {
@@ -173,6 +174,7 @@ export default function Home() {
           type: 'success',
           text: lang === 'en' ? 'Thanks for joining!' : lang === 'es' ? '¡Gracias por unirte!' : 'Obrigado por se juntar!',
         });
+        setName('');
         setEmail('');
       } else {
         const errorData = await response.json();
@@ -247,7 +249,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-28 pb-20 px-8 lg:px-12 bg-linear-to-br from-nexo-cyan/5 via-white to-nexo-lime/5 relative overflow-hidden">
+      <section className="pt-24 pb-16 px-6 lg:pt-28 lg:pb-20 lg:px-12 bg-linear-to-br from-nexo-cyan/5 via-white to-nexo-lime/5 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 right-10 w-32 h-32 bg-nexo-cyan/10 rounded-full blur-3xl"></div>
@@ -255,55 +257,55 @@ export default function Home() {
         </div>
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="inline-block mb-8">
+          <div className="inline-block mb-6 lg:mb-8">
             <Image
               src="/images/logo.png"
               alt="Nexo Pickleball"
               width={300}
               height={150}
-              className="h-32 lg:h-40 w-auto"
+              className="h-24 lg:h-32 xl:h-40 w-auto"
             />
           </div>
-          <p className="text-2xl lg:text-3xl text-gray-700 mb-4 font-medium">
+          <p className="text-xl lg:text-2xl xl:text-3xl text-gray-700 mb-4 font-medium px-4">
             {t.hero.subtitle}
           </p>
 
           {/* Visual divider */}
-          <div className="flex justify-center gap-2 mt-8">
-            <div className="w-16 h-1 bg-nexo-cyan rounded-full"></div>
-            <div className="w-16 h-1 bg-nexo-lime rounded-full"></div>
-            <div className="w-16 h-1 bg-nexo-cyan rounded-full"></div>
+          <div className="flex justify-center gap-2 mt-6 lg:mt-8">
+            <div className="w-12 lg:w-16 h-1 bg-nexo-cyan rounded-full"></div>
+            <div className="w-12 lg:w-16 h-1 bg-nexo-lime rounded-full"></div>
+            <div className="w-12 lg:w-16 h-1 bg-nexo-cyan rounded-full"></div>
           </div>
         </div>
       </section>
 
       {/* Vision Section */}
-      <section className="py-24 px-8 lg:px-12 bg-white relative">
+      <section className="py-16 px-6 lg:py-24 lg:px-12 bg-white relative">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-              <div className="inline-block bg-nexo-lime px-6 py-2 rounded-full text-nexo-dark font-bold mb-6 text-sm uppercase tracking-wider">
+              <div className="inline-block bg-nexo-lime px-4 lg:px-6 py-2 rounded-full text-nexo-dark font-bold mb-4 lg:mb-6 text-xs lg:text-sm uppercase tracking-wider">
                 {lang === "en" && "Our Mission"}
                 {lang === "es" && "Nuestra Misión"}
                 {lang === "pt" && "Nossa Missão"}
               </div>
-              <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 text-nexo-dark leading-tight">
+              <h2 className="text-3xl lg:text-5xl xl:text-6xl font-bold mb-6 lg:mb-8 text-nexo-dark leading-tight">
                 {t.vision.title}
               </h2>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-lg lg:text-xl text-gray-600 leading-relaxed">
                 {t.vision.content}
               </p>
             </div>
 
             {/* Paddle Images with hover effects */}
-            <div className="flex justify-center gap-8 lg:gap-4">
+            <div className="flex justify-center gap-4 lg:gap-4">
               <div className="flex items-end hover:scale-110 transition-transform duration-300">
                 <Image
                   src="/images/paleta1.png"
                   alt="Pickleball paddle"
                   width={140}
                   height={210}
-                  className="w-auto h-44 lg:h-52 object-contain drop-shadow-xl"
+                  className="w-auto h-32 lg:h-52 object-contain drop-shadow-xl"
                 />
               </div>
               <div className="flex items-center hover:scale-110 transition-transform duration-300">
@@ -312,7 +314,7 @@ export default function Home() {
                   alt="Pickleball paddle"
                   width={140}
                   height={210}
-                  className="w-auto h-52 lg:h-64 object-contain drop-shadow-2xl"
+                  className="w-auto h-40 lg:h-64 object-contain drop-shadow-2xl"
                 />
               </div>
               <div className="flex items-end hover:scale-110 transition-transform duration-300">
@@ -321,7 +323,7 @@ export default function Home() {
                   alt="Pickleball paddle"
                   width={140}
                   height={210}
-                  className="w-auto h-44 lg:h-52 object-contain drop-shadow-xl"
+                  className="w-auto h-32 lg:h-52 object-contain drop-shadow-xl"
                 />
               </div>
             </div>
@@ -330,7 +332,7 @@ export default function Home() {
       </section>
 
       {/* Montevideo Section */}
-      <section className="py-24 px-8 lg:px-12 bg-nexo-cyan relative overflow-hidden">
+      <section className="py-16 px-6 lg:py-24 lg:px-12 bg-nexo-cyan relative overflow-hidden">
         {/* Background SVG - hidden on mobile */}
         <div className="hidden lg:block absolute inset-0 pointer-events-none opacity-20">
           <svg className="absolute left-0 top-0 h-full w-auto" viewBox="0 0 1305 810" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -342,7 +344,7 @@ export default function Home() {
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Uruguay Map */}
             <div className="flex justify-center order-2 lg:order-1">
               <div className="relative">
@@ -352,22 +354,22 @@ export default function Home() {
                   alt="Uruguay Map"
                   width={600}
                   height={600}
-                  className="w-full max-w-lg h-auto object-contain relative z-10"
+                  className="w-full max-w-xs lg:max-w-lg h-auto object-contain relative z-10"
                 />
               </div>
             </div>
 
             {/* Content */}
             <div className="text-white order-1 lg:order-2">
-              <div className="inline-block bg-white/20 px-6 py-2 rounded-full text-white font-bold mb-6 text-sm uppercase tracking-wider">
+              <div className="inline-block bg-white/20 px-4 lg:px-6 py-2 rounded-full text-white font-bold mb-4 lg:mb-6 text-xs lg:text-sm uppercase tracking-wider">
                 {lang === "en" && "Coming Soon"}
                 {lang === "es" && "Próximamente"}
                 {lang === "pt" && "Em Breve"}
               </div>
-              <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 leading-tight">
+              <h2 className="text-3xl lg:text-5xl xl:text-6xl font-bold mb-6 lg:mb-8 leading-tight">
                 {t.montevideo.title}
               </h2>
-              <p className="text-xl leading-relaxed opacity-95">
+              <p className="text-lg lg:text-xl leading-relaxed opacity-95">
                 {t.montevideo.content}
               </p>
             </div>
@@ -376,55 +378,67 @@ export default function Home() {
       </section>
 
       {/* Players Section */}
-      <section className="py-24 px-8 lg:px-12 bg-linear-to-br from-nexo-dark via-nexo-dark to-nexo-cyan/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-nexo-lime px-6 py-2 rounded-full text-nexo-dark font-bold mb-6 text-sm uppercase tracking-wider">
+      <section className="py-16 px-6 lg:py-24 lg:px-12 bg-linear-to-br from-nexo-dark via-nexo-dark to-nexo-cyan/20 relative overflow-hidden">
+        {/* Pickleball Net SVG Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-5">
+          <svg className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-auto" width="612" height="242" viewBox="0 0 612 242" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M157.133 159.687L185.36 241.417H208.783L180.024 159.687H157.133Z" fill="#DAF928"/>
+            <path d="M0 241.417H4.77L0 226.079V241.417Z" fill="#DAF928"/>
+            <path d="M131.861 0L170.203 108.77L188.142 108.777C191.151 108.779 194.167 108.776 197.176 108.777V158.71H191.438V157.855C190.138 157.853 188.832 157.858 187.531 157.855L217.808 244.169H615.309V55.448C615.309 24.825 590.484 0 559.861 0H131.861Z" fill="#DAF928"/>
+            <path d="M-10.2449 159.686V167.255L13.6841 244.168H178.131L177.494 241.936C168.738 216.684 160.086 191.412 151.33 166.16C150.74 164.46 150.247 162.714 149.629 161.025C149.531 160.758 149.193 159.756 149.001 159.699L-10.2449 159.686Z" fill="#DAF928"/>
+            <path d="M-10.2449 24.1726V108.777H131.617L102.446 24.2266L-10.2449 24.1726Z" fill="#DAF928"/>
+            <path d="M124.17 -2.28882e-05H-10.245V18.557L108.307 18.61L139.553 108.777H162.26L124.17 -2.28882e-05Z" fill="#DAF928"/>
+          </svg>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-12 lg:mb-16">
+            <div className="inline-block bg-nexo-lime px-4 lg:px-6 py-2 rounded-full text-nexo-dark font-bold mb-4 lg:mb-6 text-xs lg:text-sm uppercase tracking-wider">
               {lang === "en" && "World-Class Team"}
               {lang === "es" && "Equipo de Clase Mundial"}
               {lang === "pt" && "Equipe de Classe Mundial"}
             </div>
-            <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 text-white leading-tight">
+            <h2 className="text-3xl lg:text-5xl xl:text-6xl font-bold mb-4 lg:mb-6 text-white leading-tight">
               {t.players.title}
             </h2>
-            <p className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-lg lg:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto px-4">
               {t.players.content}
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 mb-12">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 mb-12">
             {/* Federico Staksrud */}
-            <div className="bg-white/95 backdrop-blur rounded-2xl p-8 hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-nexo-cyan/20">
-              <div className="flex gap-6 items-center mb-6">
-                <div className="relative">
+            <div className="bg-white/95 backdrop-blur rounded-2xl p-6 lg:p-8 hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-nexo-cyan/20">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-center mb-6">
+                <div className="relative shrink-0">
                   <div className="absolute inset-0 bg-nexo-cyan/30 rounded-full blur-lg"></div>
                   <Image
                     src="/images/fede.png"
                     alt="Federico Staksrud"
                     width={120}
                     height={120}
-                    className="w-28 h-28 rounded-full object-cover relative z-10 border-4 border-white"
+                    className="w-24 h-24 lg:w-28 lg:h-28 rounded-full object-cover relative z-10 border-4 border-white"
                   />
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl lg:text-3xl font-bold text-nexo-dark mb-2">FEDERICO STAKSRUD</h3>
-                  <p className="text-base text-gray-600">
+                <div className="flex-1 text-center sm:text-left">
+                  <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-nexo-dark mb-1 lg:mb-2">FEDERICO STAKSRUD</h3>
+                  <p className="text-sm lg:text-base text-gray-600">
                     {lang === "en" && "Argentina"}{lang === "es" && "Argentina"}{lang === "pt" && "Argentina"} 🇦🇷
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-nexo-cyan/10 rounded-lg p-4 text-center">
-                  <div className="text-4xl font-bold text-nexo-cyan">#2</div>
-                  <p className="text-sm text-gray-600 mt-1">
+              <div className="grid grid-cols-2 gap-3 lg:gap-4">
+                <div className="bg-nexo-cyan/10 rounded-lg p-3 lg:p-4 text-center">
+                  <div className="text-3xl lg:text-4xl font-bold text-nexo-cyan">#2</div>
+                  <p className="text-xs lg:text-sm text-gray-600 mt-1">
                     {lang === "en" && "Singles"}
                     {lang === "es" && "Singles"}
                     {lang === "pt" && "Singles"}
                   </p>
                 </div>
-                <div className="bg-nexo-cyan/10 rounded-lg p-4 text-center">
-                  <div className="text-4xl font-bold text-nexo-cyan">#3</div>
-                  <p className="text-sm text-gray-600 mt-1">
+                <div className="bg-nexo-cyan/10 rounded-lg p-3 lg:p-4 text-center">
+                  <div className="text-3xl lg:text-4xl font-bold text-nexo-cyan">#3</div>
+                  <p className="text-xs lg:text-sm text-gray-600 mt-1">
                     {lang === "en" && "Doubles"}
                     {lang === "es" && "Dobles"}
                     {lang === "pt" && "Duplas"}
@@ -434,37 +448,37 @@ export default function Home() {
             </div>
 
             {/* Eric Oncins */}
-            <div className="bg-white/95 backdrop-blur rounded-2xl p-8 hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-nexo-lime/20">
-              <div className="flex gap-6 items-center mb-6">
-                <div className="relative">
+            <div className="bg-white/95 backdrop-blur rounded-2xl p-6 lg:p-8 hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-nexo-lime/20">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-center mb-6">
+                <div className="relative shrink-0">
                   <div className="absolute inset-0 bg-nexo-lime/30 rounded-full blur-lg"></div>
                   <Image
                     src="/images/eric.png"
                     alt="Eric Oncins"
                     width={120}
                     height={120}
-                    className="w-28 h-28 rounded-full object-cover relative z-10 border-4 border-white"
+                    className="w-24 h-24 lg:w-28 lg:h-28 rounded-full object-cover relative z-10 border-4 border-white"
                   />
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl lg:text-3xl font-bold text-nexo-dark mb-2">ERIC ONCINS</h3>
-                  <p className="text-base text-gray-600">
+                <div className="flex-1 text-center sm:text-left">
+                  <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-nexo-dark mb-1 lg:mb-2">ERIC ONCINS</h3>
+                  <p className="text-sm lg:text-base text-gray-600">
                     {lang === "en" && "Brazil"}{lang === "es" && "Brasil"}{lang === "pt" && "Brasil"} 🇧🇷
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-nexo-lime/20 rounded-lg p-4 text-center">
-                  <div className="text-4xl font-bold text-nexo-dark">#49</div>
-                  <p className="text-sm text-gray-600 mt-1">
+              <div className="grid grid-cols-2 gap-3 lg:gap-4">
+                <div className="bg-nexo-lime/20 rounded-lg p-3 lg:p-4 text-center">
+                  <div className="text-3xl lg:text-4xl font-bold text-nexo-dark">#49</div>
+                  <p className="text-xs lg:text-sm text-gray-600 mt-1">
                     {lang === "en" && "Singles"}
                     {lang === "es" && "Singles"}
                     {lang === "pt" && "Singles"}
                   </p>
                 </div>
-                <div className="bg-nexo-lime/20 rounded-lg p-4 text-center">
-                  <div className="text-4xl font-bold text-nexo-dark">#25</div>
-                  <p className="text-sm text-gray-600 mt-1">
+                <div className="bg-nexo-lime/20 rounded-lg p-3 lg:p-4 text-center">
+                  <div className="text-3xl lg:text-4xl font-bold text-nexo-dark">#25</div>
+                  <p className="text-xs lg:text-sm text-gray-600 mt-1">
                     {lang === "en" && "Doubles"}
                     {lang === "es" && "Dobles"}
                     {lang === "pt" && "Duplas"}
@@ -477,34 +491,47 @@ export default function Home() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-20 px-8 lg:px-12 bg-linear-to-br from-nexo-lime/10 to-white">
+      <section className="py-16 px-6 lg:py-20 lg:px-12 bg-linear-to-br from-nexo-lime/10 to-white">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-nexo-dark">
+          <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold mb-3 lg:mb-4 text-nexo-dark">
             {t.newsletter.title}
           </h2>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-base lg:text-lg text-gray-600 mb-6 lg:mb-8 px-4">
             {t.newsletter.subtitle}
           </p>
 
-          <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto">
-            <div className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto px-4">
+            <div className="flex flex-col gap-3">
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder={
+                  lang === 'en' ? 'Your name' :
+                  lang === 'es' ? 'Tu nombre' :
+                  'Seu nome'
+                }
+                required
+                className="w-full px-4 lg:px-6 py-3 lg:py-4 rounded-lg border-2 border-gray-300 focus:border-nexo-cyan focus:outline-none text-base lg:text-lg"
+                disabled={isSubmitting}
+              />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={
-                  lang === 'en' ? 'Enter your email' :
-                  lang === 'es' ? 'Ingresa tu email' :
-                  'Digite seu email'
+                  lang === 'en' ? 'Your email' :
+                  lang === 'es' ? 'Tu email' :
+                  'Seu email'
                 }
                 required
-                className="flex-1 px-6 py-4 rounded-lg border-2 border-gray-300 focus:border-nexo-cyan focus:outline-none text-lg"
+                className="w-full px-4 lg:px-6 py-3 lg:py-4 rounded-lg border-2 border-gray-300 focus:border-nexo-cyan focus:outline-none text-base lg:text-lg"
                 disabled={isSubmitting}
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-nexo-cyan text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-nexo-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-nexo-cyan text-white px-8 lg:px-10 py-3 lg:py-4 rounded-lg font-bold text-base lg:text-lg hover:bg-nexo-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   lang === 'en' ? 'Joining...' :
@@ -515,7 +542,7 @@ export default function Home() {
             </div>
 
             {submitMessage && (
-              <div className={`mt-4 p-3 rounded-lg ${submitMessage.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+              <div className={`mt-4 p-3 rounded-lg text-sm lg:text-base ${submitMessage.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                 {submitMessage.text}
               </div>
             )}
@@ -524,71 +551,85 @@ export default function Home() {
       </section>
 
       {/* Investing Section */}
-      <section className="py-20 px-8 lg:px-12 bg-nexo-dark">
+      <section className="py-16 px-6 lg:py-20 lg:px-12 bg-nexo-dark">
         <div className="max-w-4xl mx-auto text-white">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+          <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold mb-4 lg:mb-6">
             {t.investing.title}
           </h2>
-          <p className="text-lg leading-relaxed mb-8">
+          <p className="text-base lg:text-lg leading-relaxed mb-6 lg:mb-8">
             {t.investing.content}
           </p>
           <a
             href="mailto:asher@nexopickleball.com?subject=Investment Inquiry"
-            className="bg-nexo-lime text-nexo-dark px-8 py-3 rounded-lg font-bold text-lg hover:bg-white transition-all inline-block"
+            className="bg-nexo-lime text-nexo-dark px-6 lg:px-8 py-3 rounded-lg font-bold text-base lg:text-lg hover:bg-white transition-all inline-block"
           >
             {t.investing.button}
           </a>
         </div>
       </section>
 
-      {/* Social Section */}
-      <section className="py-16 px-8 lg:px-12 bg-gray-50">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-8 text-nexo-dark">
-            {t.social.title}
-          </h2>
-          <div className="flex justify-center gap-6 flex-wrap">
-            <a
-              href="https://instagram.com/nexo.pickleball"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-700 hover:text-nexo-cyan transition-colors text-lg"
-            >
-              Instagram @nexo.pickleball
-            </a>
-            <span className="text-gray-300">|</span>
-            <a
-              href="https://linkedin.com/company/nexo-pickleball"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-700 hover:text-nexo-cyan transition-colors text-lg"
-            >
-              LinkedIn
-            </a>
-            <span className="text-gray-300">|</span>
-            <a
-              href="mailto:asher@nexopickleball.com"
-              className="text-gray-700 hover:text-nexo-cyan transition-colors text-lg"
-            >
-              asher@nexopickleball.com
-            </a>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
-      <footer className="border-t border-gray-200 py-8 px-8 lg:px-12 bg-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <Image
-            src="/images/logo.png"
-            alt="Nexo Pickleball"
-            width={100}
-            height={50}
-            className="h-8 w-auto mx-auto mb-4"
-          />
-          <p className="text-gray-500 text-sm">
-            &copy; 2024 Nexo Pickleball
-          </p>
+      <footer className="border-t border-gray-200 py-12 px-8 lg:px-12 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col items-center gap-6">
+            <Image
+              src="/images/logo.png"
+              alt="Nexo Pickleball"
+              width={120}
+              height={60}
+              className="h-10 w-auto"
+            />
+
+            {/* Social Icons */}
+            <div className="flex gap-6 items-center">
+              <a
+                href="https://instagram.com/nexo.pickleball"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-110 transition-transform"
+                aria-label="Instagram"
+                title="@nexopickle"
+              >
+                <Image
+                  src="/images/instagram.png"
+                  alt="Instagram"
+                  width={32}
+                  height={32}
+                  className="w-8 h-8"
+                />
+              </a>
+
+              <a
+                href="https://linkedin.com/company/nexo-pickleball"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-110 transition-transform"
+                aria-label="LinkedIn"
+                title="LinkedIn"
+              >
+                <Image
+                  src="/images/linkedin.svg.png"
+                  alt="LinkedIn"
+                  width={32}
+                  height={32}
+                  className="w-8 h-8"
+                />
+              </a>
+
+              <a
+                href="mailto:asher@nexopickleball.com"
+                className="hover:scale-110 transition-transform flex items-center"
+                aria-label="Email"
+                title="asher@nexopickleball.com"
+              >
+                <span className="text-4xl leading-none">✉️</span>
+              </a>
+            </div>
+
+            <p className="text-gray-500 text-sm">
+              &copy; 2026 Nexo Pickleball
+            </p>
+          </div>
         </div>
       </footer>
     </div>
