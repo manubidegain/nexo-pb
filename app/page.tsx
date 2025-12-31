@@ -583,7 +583,7 @@ export default function Home() {
             {/* Social Icons */}
             <div className="flex gap-6 items-center">
               <a
-                href="https://instagram.com/nexo.pickleball"
+                href="https://instagram.com/nexopickle"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:scale-110 transition-transform"
